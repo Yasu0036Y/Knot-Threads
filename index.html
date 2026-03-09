@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Knot & Threads • favourites & cart</title>
+  <title>Knot & Threads • artisan shop</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -392,6 +392,30 @@
       text-align: right;
     }
 
+    /* WhatsApp number display */
+    .whatsapp-info {
+      background: #e8f5e9;
+      border-radius: 50px;
+      padding: 1rem;
+      margin: 1rem 0;
+      text-align: center;
+      border: 2px solid #25D366;
+    }
+    .whatsapp-info i {
+      color: #25D366;
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+    .whatsapp-info a {
+      color: #075e54;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+    .whatsapp-info a:hover {
+      text-decoration: underline;
+    }
+
     /* booking form */
     .booking-form input, .booking-form textarea {
       width: 100%;
@@ -416,6 +440,25 @@
       margin-top: 1rem;
     }
     .btn-checkout:hover { background-color: #9b4f4f; }
+    .btn-whatsapp {
+      background-color: #25D366;
+      color: white;
+      border: none;
+      padding: 1rem;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-whatsapp:hover {
+      background-color: #128C7E;
+    }
 
     footer {
       background-color: #311f1f;
@@ -489,15 +532,29 @@
       <div class="cart-total" id="cartTotalDisplay">Total: ₹ 0</div>
     </div>
 
-    <!-- RIGHT: booking form -->
+    <!-- RIGHT: booking form with WhatsApp integration -->
     <div class="order-col">
       <h2><i class="fas fa-clipboard-list"></i> Order booking</h2>
+      
+      <!-- WhatsApp Business Info -->
+      <div class="whatsapp-info">
+        <i class="fab fa-whatsapp"></i>
+        <span>Orders will be sent to: </span>
+        <a href="https://wa.me/919828044100" target="_blank">+91 98280 44100</a>
+      </div>
+      
       <div class="booking-form">
         <input type="text" id="customerName" placeholder="full name *">
         <input type="email" id="customerEmail" placeholder="email address *">
+        <input type="text" id="customerPhone" placeholder="your WhatsApp number *">
         <input type="text" id="customerAddress" placeholder="delivery address *">
         <textarea rows="3" id="orderNotes" placeholder="special requests (colour, size etc.)"></textarea>
-        <button class="btn-checkout" id="placeOrderBtn" onclick="handlePlaceOrder()">Place order • complete booking</button>
+        
+        <!-- Two options: Place order (saves) or Send to WhatsApp -->
+        <button class="btn-checkout" id="placeOrderBtn" onclick="saveOrder()">📝 Save order details</button>
+        <button class="btn-whatsapp" id="whatsappOrderBtn" onclick="sendToWhatsApp()">
+          <i class="fab fa-whatsapp"></i> Send order to WhatsApp
+        </button>
         <p style="margin-top:1rem; font-size:0.9rem;" id="orderMessage"></p>
       </div>
     </div>
@@ -506,9 +563,14 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-content">
-      <div class="logo" style="color:#eed7cf;">Knot & Threads <span style="color:#bda09a;">since 2012</span></div>
+      <div class="logo" style="color:#eed7cf;">Knot & Threads <span style="color:#bda09a;">since 2026
+      </span></div>
       <div class="footer-links"><a href="#">FAQ</a><a href="#">shipping</a><a href="#">returns</a></div>
-      <div class="socials"><i class="fab fa-instagram"></i><i class="fab fa-facebook-f"></i></div>
+      <div class="socials">
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-facebook-f"></i>
+        <i class="fab fa-whatsapp"></i>
+      </div>
     </div>
     <div class="copyright">© 2025 Knot & Threads — handmade with ❤️ in India</div>
   </footer>
@@ -538,8 +600,8 @@
         </div>
       `).join('');
 
-      // ----- FAVOURITES STATE (persist in array) -----
-      let favourites = []; // store { id, name, price }
+      // ----- FAVOURITES STATE -----
+      let favourites = [];
 
       const favouritesGrid = document.getElementById('favouritesGrid');
 
@@ -562,7 +624,7 @@
           `;
         });
         favouritesGrid.innerHTML = html;
-        // also update heart active state in product cards
+        // update heart active state
         document.querySelectorAll('.favourite-btn').forEach(btn => {
           const fid = parseInt(btn.dataset.favid);
           if (favourites.some(f => f.id === fid)) {
@@ -573,7 +635,6 @@
         });
       }
 
-      // add/remove from favourites
       function toggleFavourite(productId, productName, productPrice) {
         const index = favourites.findIndex(f => f.id === productId);
         if (index === -1) {
@@ -602,8 +663,8 @@
         });
       });
 
-      // ----- CART STATE (same as before) -----
-      let cart = []; // { id, name, price, quantity }
+      // ----- CART STATE -----
+      let cart = [];
       const cartCountSpan = document.getElementById('cartCount');
       const cartContainer = document.getElementById('cartItemsContainer');
       const cartTotalSpan = document.getElementById('cartTotalDisplay');
@@ -667,13 +728,16 @@
         });
       });
 
-      // Place order
-      window.handlePlaceOrder = function() {
+      // Save order (local)
+      window.saveOrder = function() {
         const name = document.getElementById('customerName').value.trim();
         const email = document.getElementById('customerEmail').value.trim();
+        const phone = document.getElementById('customerPhone').value.trim();
         const address = document.getElementById('customerAddress').value.trim();
+        const notes = document.getElementById('orderNotes').value;
         const msgBox = document.getElementById('orderMessage');
-        if (!name || !email || !address) {
+
+        if (!name || !email || !phone || !address) {
           msgBox.style.color = '#b06666';
           msgBox.textContent = 'Please fill in all required fields (*)';
           return;
@@ -683,10 +747,73 @@
           msgBox.textContent = 'Your cart is empty. Add items before ordering.';
           return;
         }
+        
         const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
         msgBox.style.color = '#4f6b5e';
-        msgBox.innerHTML = `✅ Order booked! Thank you ${name}. We'll contact you at ${email}. Total: ₹${total}`;
-        cartActions.clearCart();
+        msgBox.innerHTML = `✅ Order saved! We'll contact you soon.`;
+        
+        // Store order in localStorage for demo
+        const order = {
+          customer: { name, email, phone, address, notes },
+          items: cart,
+          total: total,
+          date: new Date().toISOString()
+        };
+        localStorage.setItem('lastOrder', JSON.stringify(order));
+      };
+
+      // Send to WhatsApp
+      window.sendToWhatsApp = function() {
+        const name = document.getElementById('customerName').value.trim();
+        const email = document.getElementById('customerEmail').value.trim();
+        const phone = document.getElementById('customerPhone').value.trim();
+        const address = document.getElementById('customerAddress').value.trim();
+        const notes = document.getElementById('orderNotes').value;
+        const msgBox = document.getElementById('orderMessage');
+
+        if (!name || !email || !phone || !address) {
+          msgBox.style.color = '#b06666';
+          msgBox.textContent = 'Please fill in all required fields (*)';
+          return;
+        }
+        if (cart.length === 0) {
+          msgBox.style.color = '#b06666';
+          msgBox.textContent = 'Your cart is empty. Add items before ordering.';
+          return;
+        }
+
+        // Create order summary
+        let itemsList = '';
+        cart.forEach(item => {
+          itemsList += `${item.name} x${item.quantity} - ₹${item.price * item.quantity}\n`;
+        });
+        
+        const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+        
+        // Format WhatsApp message
+        const message = `*New Order from Knot & Threads*%0A%0A
+*Customer Details:*%0A
+Name: ${name}%0A
+Email: ${email}%0A
+WhatsApp: ${phone}%0A
+Address: ${address}%0A
+Notes: ${notes || 'None'}%0A%0A
+*Order Details:*%0A
+${itemsList}%0A
+*Total: ₹${total}*%0A%0A
+_Thank you for shopping with us!_`;
+
+        // WhatsApp Business number (replace with your actual WhatsApp number)
+        const whatsappNumber = '919391580528'; // Remove + and spaces
+        
+        // Open WhatsApp
+        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+        
+        msgBox.style.color = '#4f6b5e';
+        msgBox.innerHTML = '✅ Redirecting to WhatsApp...';
+        
+        // Clear cart after sending to WhatsApp (optional)
+        // cartActions.clearCart();
       };
 
       // mobile menu
