@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knot & Threads • favourites & cart</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background-color: #fef9f7;
+      color: #4a3b3b;
+      line-height: 1.6;
+    }
+
+    /* navigation */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 5%;
+      background-color: #ffffffd9;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(180, 120, 120, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 400;
+      letter-spacing: 3px;
+      color: #b35d5d;
+      font-family: 'Times New Roman', serif;
+    }
+    .logo span {
+      font-weight: 300;
+      font-size: 1rem;
+      color: #c17979;
+      display: block;
+      line-height: 1;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #5b4b4b;
+      font-weight: 400;
+      font-size: 1.1rem;
+      transition: 0.2s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+    }
+    .nav-links a:hover {
+      border-bottom-color: #dba5a5;
+      color: #a15151;
+    }
+
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.6rem;
+      color: #a15151;
+    }
+    .cart-count {
+      position: absolute;
+      top: -10px;
+      right: -12px;
+      background: #b06666;
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 1.8rem;
+      color: #a15151;
+      cursor: pointer;
+    }
+
+    /* hero */
+    .hero {
+      background: linear-gradient(145deg, #fbeae8 0%, #f9ded9 100%);
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8%;
+      flex-wrap: wrap;
+    }
+    .hero-text {
+      flex: 1 1 350px;
+      max-width: 600px;
+    }
+    .hero-text h1 {
+      font-size: 3.2rem;
+      font-weight: 350;
+      line-height: 1.2;
+      color: #592e2e;
+      font-family: 'Georgia', serif;
+    }
+    .hero-text p {
+      font-size: 1.2rem;
+      margin: 1.8rem 0 2.5rem;
+      color: #6f5555;
+    }
+    .btn {
+      background-color: #b06666;
+      color: white;
+      border: none;
+      padding: 0.9rem 2.5rem;
+      font-size: 1.1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 6px 14px #e2b8b8;
+    }
+    .btn:hover {
+      background-color: #9b5050;
+    }
+    .hero-image img {
+      max-width: 100%;
+      width: 400px;
+      border-radius: 50% 50% 30% 30%;
+      box-shadow: 0 30px 30px -15px #cc9f9f;
+      border: 6px solid #fff3f0;
+    }
+
+    /* section titles */
+    .section-title {
+      text-align: center;
+      font-size: 2.6rem;
+      font-weight: 320;
+      color: #552e2e;
+      margin: 3.5rem 0 1.5rem;
+      font-family: 'Georgia', serif;
+    }
+    .section-title span {
+      background: #fbe2de;
+      padding: 0.2rem 1.2rem;
+      display: inline-block;
+      border-radius: 60px;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      color: #8d4b4b;
+    }
+
+    /* product grid (with favourite heart) */
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2.5rem;
+      max-width: 1300px;
+      margin: 0 auto 3rem;
+      padding: 0 5%;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 30px;
+      overflow: hidden;
+      width: 280px;
+      box-shadow: 0 14px 28px rgba(160, 100, 100, 0.08);
+      transition: transform 0.25s ease;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+      .product-card:hover {
+        transform: translateY(-8px);
+      }
+      .card-img {
+        height: 240px;
+        background: #ffeae5;
+        background-size: cover;
+        background-position: center;
+      }
+      /* image placeholders */
+      .img-bangle { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="65" fill="%23f7dfda" stroke="%23bd8282" stroke-width="6" stroke-dasharray="8 6"/><circle cx="100" cy="100" r="35" fill="%23fef0ea" stroke="%23a16666" stroke-width="3"/><path d="M70 70 Q100 45 130 70" stroke="%23955e5e" fill="none" stroke-width="5"/><path d="M75 130 Q100 155 125 130" stroke="%23955e5e" fill="none" stroke-width="5"/></svg>'); }
+      .img-embroidery { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect x="40" y="40" width="120" height="120" fill="%23fae1d9" stroke="%23aa6e6e" stroke-width="6"/><circle cx="100" cy="70" r="14" fill="%23dba39a"/><circle cx="70" cy="120" r="14" fill="%23dba39a"/><circle cx="130" cy="120" r="14" fill="%23dba39a"/></svg>'); }
+      .img-dupatta { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><polygon points="30,50 170,50 140,170 60,170 30,50" fill="%23ffe7df" stroke="%23b07977" stroke-width="5"/><path d="M55 80 L145 80 M65 110 L135 110 M75 140 L125 140" stroke="%23a55e5e" stroke-width="3" stroke-dasharray="6 5"/></svg>'); }
+      .img-dress { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M50 60 L150 60 L135 160 L65 160 L50 60" fill="%23f5e1db" stroke="%23b07777" stroke-width="5"/><circle cx="100" cy="45" r="18" fill="%23f3d4cc" stroke="%239f6767" stroke-width="4"/><path d="M80 100 L120 100 L115 140 L85 140 L80 100" fill="%23faeae5" stroke="%239e6d6d" stroke-width="3"/></svg>'); }
+
+      /* favourite heart */
+      .favourite-btn {
+        position: absolute;
+        top: 15px;
+        right: 18px;
+        background: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 10px #e2bcb4;
+        cursor: pointer;
+        border: none;
+        font-size: 1.3rem;
+        color: #b06666;
+        transition: 0.2s;
+        z-index: 5;
+      }
+      .favourite-btn:hover {
+        transform: scale(1.1);
+        background: #ffe3dd;
+      }
+      .favourite-btn.active {
+        color: #d14545;
+        background: #ffdbd1;
+      }
+
+      .card-info {
+        padding: 1.5rem 1rem 1.5rem;
+        flex-grow: 1;
+      }
+      .card-info h3 {
+        font-size: 1.5rem;
+        font-weight: 450;
+        color: #5f3737;
+        margin-bottom: 0.3rem;
+      }
+      .price {
+        font-weight: 600;
+        font-size: 1.4rem;
+        color: #b15757;
+        margin: 0.6rem 0;
+      }
+      .add-to-cart {
+        background: #f3d6d1;
+        color: #773e3e;
+        border: none;
+        padding: 0.6rem 1.4rem;
+        border-radius: 40px;
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: 0.2s;
+        width: 80%;
+        margin: 0.4rem auto 1rem;
+      }
+      .add-to-cart:hover {
+        background: #dbaaa2;
+        color: white;
+      }
+
+    /* FAVOURITE SECTION (visible on page) */
+    .favourites-section {
+      max-width: 1300px;
+      margin: 3rem auto 2rem;
+      padding: 0 5%;
+    }
+    .favourites-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 2rem;
+      color: #552e2e;
+      margin-bottom: 2rem;
+    }
+    .favourites-header h2 {
+      font-family: Georgia, serif;
+      font-weight: 340;
+      border-bottom: 2px solid #fad2ca;
+      padding-bottom: 0.5rem;
+    }
+    .favourites-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: flex-start;
+      background: #fffbf9;
+      border-radius: 60px;
+      padding: 2rem 2.5rem;
+      box-shadow: inset 0 2px 10px #f5dbd4;
+      min-height: 200px;
+    }
+    .favourite-item-card {
+      background: white;
+      border-radius: 40px;
+      padding: 1rem 1.5rem 1rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 6px 14px #edd3cb;
+      width: auto;
+      min-width: 240px;
+    }
+    .favourite-item-card .item-info {
+      flex:1;
+    }
+    .favourite-item-card .item-title {
+      font-weight: 600;
+      color: #5f3737;
+    }
+    .fav-remove {
+      background: none;
+      border: none;
+      color: #b06666;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+    .fav-placeholder {
+      color: #a98686;
+      font-style: italic;
+    }
+
+    /* CART & ORDER row (cart always visible) */
+    .order-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      max-width: 1300px;
+      margin: 3rem auto 4rem;
+      padding: 0 5%;
+    }
+    .order-col {
+      flex: 1 1 300px;
+      background: white;
+      border-radius: 40px;
+      padding: 2rem;
+      box-shadow: 0 18px 30px #ecd9d4;
+    }
+    .order-col h2 {
+      font-size: 2rem;
+      font-weight: 340;
+      color: #532e2e;
+      margin-bottom: 1.5rem;
+      font-family: Georgia, serif;
+      border-bottom: 2px dashed #dba5a5;
+      padding-bottom: 0.7rem;
+    }
+
+    /* cart items */
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid #fadcd6;
+    }
+    .cart-item-info { flex:2; }
+    .cart-item-title { font-weight: 600; color: #4f3535; }
+    .cart-item-price { color: #a15151; }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .qty-btn {
+      background: #f3d6d1;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+      color: #5f3737;
+    }
+    .qty-btn:hover { background: #dbaaa2; color: white; }
+    .cart-empty-msg { color: #a17575; font-style: italic; padding: 1rem 0; }
+    .cart-total {
+      margin-top: 1.5rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #4f3535;
+      text-align: right;
+    }
+
+    /* booking form */
+    .booking-form input, .booking-form textarea {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      margin: 0.5rem 0 1.2rem;
+      border: 1px solid #f0cfc8;
+      border-radius: 50px;
+      font-size: 1rem;
+      background: #fefaf9;
+    }
+    .booking-form textarea { border-radius: 30px; }
+    .btn-checkout {
+      background-color: #b06666;
+      color: white;
+      border: none;
+      padding: 1rem;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+      margin-top: 1rem;
+    }
+    .btn-checkout:hover { background-color: #9b4f4f; }
+
+    footer {
+      background-color: #311f1f;
+      color: #f2dbd4;
+      padding: 2.5rem 5% 1.5rem;
+      margin-top: 3rem;
+    }
+    .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; }
+    .copyright { text-align: center; margin-top: 2rem; color: #cfa7a0; }
+
+    @media screen and (max-width: 800px) {
+      .nav-links { display: none; width: 100%; flex-direction: column; background: #fffaf8; padding: 2rem 0; border-radius: 40px; }
+      .nav-links.active { display: flex; }
+      .menu-icon { display: block; }
+      .hero { flex-direction: column-reverse; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">Knot & Threads <span>artisan shop</span></div>
+    <div class="menu-icon" id="menuIcon"><i class="fas fa-bars"></i></div>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#products">Bangles</a>
+      <a href="#products">Embroidery</a>
+      <a href="#favourites">Favourites</a>
+      <a href="#order">Cart</a>
+    </div>
+    <div class="cart-icon" id="cartIcon">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="cart-count" id="cartCount">0</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="hero-text">
+      <h1>Woven traditions<br><i>for the modern woman</i></h1>
+      <p>Threaded bangles, hand‑embroidered clothing – each piece tells a story.</p>
+      <a href="#products" class="btn">Explore collection</a>
+    </div>
+    <div class="hero-image">
+      <img src="img.png" alt="artistic bangles" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 400\'%3E%3Ccircle cx=\'200\' cy=\'200\' r=\'150\' fill=\'%23f9e3df\'/%3E%3Cpath d=\'M120 150 Q200 70 280 150\' stroke=\'%23b06666\' stroke-width=\'8\' fill=\'none\'/%3E%3C/svg%3E'">
+    </div>
+  </section>
+
+  <!-- PRODUCTS section with FAVOURITE hearts -->
+  <h2 id="products" class="section-title">Signature pieces <span>handcrafted for you</span></h2>
+  <div class="product-grid" id="productGrid"></div>
+
+  <!-- FAVOURITES SECTION (always visible on page) -->
+  <section id="favourites" class="favourites-section">
+    <div class="favourites-header">
+      <i class="fas fa-heart" style="color:#d14545;"></i>
+      <h2>Your favourite items</h2>
+    </div>
+    <div class="favourites-grid" id="favouritesGrid">
+      <div class="fav-placeholder">❤️ Click the heart on any product to add it here.</div>
+    </div>
+  </section>
+
+  <!-- CART & ORDER row (cart always open) -->
+  <section id="order" class="order-row">
+    <!-- LEFT: shopping cart (always visible) -->
+    <div class="order-col">
+      <h2><i class="fas fa-shopping-cart" style="color:#b06666;"></i> Your cart</h2>
+      <div id="cartItemsContainer" class="cart-items">
+        <div class="cart-empty-msg">Your cart is empty.</div>
+      </div>
+      <div class="cart-total" id="cartTotalDisplay">Total: ₹ 0</div>
+    </div>
+
+    <!-- RIGHT: booking form -->
+    <div class="order-col">
+      <h2><i class="fas fa-clipboard-list"></i> Order booking</h2>
+      <div class="booking-form">
+        <input type="text" id="customerName" placeholder="full name *">
+        <input type="email" id="customerEmail" placeholder="email address *">
+        <input type="text" id="customerAddress" placeholder="delivery address *">
+        <textarea rows="3" id="orderNotes" placeholder="special requests (colour, size etc.)"></textarea>
+        <button class="btn-checkout" id="placeOrderBtn" onclick="handlePlaceOrder()">Place order • complete booking</button>
+        <p style="margin-top:1rem; font-size:0.9rem;" id="orderMessage"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="logo" style="color:#eed7cf;">Knot & Threads <span style="color:#bda09a;">since 2012</span></div>
+      <div class="footer-links"><a href="#">FAQ</a><a href="#">shipping</a><a href="#">returns</a></div>
+      <div class="socials"><i class="fab fa-instagram"></i><i class="fab fa-facebook-f"></i></div>
+    </div>
+    <div class="copyright">© 2025 Knot & Threads — handmade with ❤️ in India</div>
+  </footer>
+
+  <script>
+    (function() {
+      // ----- PRODUCT DATA -----
+      const products = [
+        { id: 1, name: 'Threaded bangles', desc: 'silken threads · gold', price: 1299, imgClass: 'img-bangle' },
+        { id: 2, name: 'Mirror work kurta', desc: 'hand embroidered · cotton', price: 3490, imgClass: 'img-embroidery' },
+        { id: 3, name: 'Chikankari dupatta', desc: 'white-on-white embroidery', price: 2850, imgClass: 'img-dupatta' },
+        { id: 4, name: 'Embroidered dress', desc: 'floral threadwork · linen', price: 5299, imgClass: 'img-dress' }
+      ];
+
+      // Render product grid with favourite heart
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = products.map(p => `
+        <div class="product-card" data-product-id="${p.id}">
+          <div class="card-img ${p.imgClass}"></div>
+          <button class="favourite-btn" data-favid="${p.id}" title="Add to favourites"><i class="fas fa-heart"></i></button>
+          <div class="card-info">
+            <h3>${p.name}</h3>
+            <p>${p.desc}</p>
+            <div class="price">₹ ${p.price}</div>
+            <button class="add-to-cart" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">Add to cart</button>
+          </div>
+        </div>
+      `).join('');
+
+      // ----- FAVOURITES STATE (persist in array) -----
+      let favourites = []; // store { id, name, price }
+
+      const favouritesGrid = document.getElementById('favouritesGrid');
+
+      function updateFavouritesDisplay() {
+        if (favourites.length === 0) {
+          favouritesGrid.innerHTML = '<div class="fav-placeholder">❤️ Click the heart on any product to add it here.</div>';
+          return;
+        }
+        let html = '';
+        favourites.forEach(fav => {
+          html += `
+            <div class="favourite-item-card" data-favid="${fav.id}">
+              <i class="fas fa-heart" style="color:#d14545;"></i>
+              <div class="item-info">
+                <span class="item-title">${fav.name}</span><br>
+                <span>₹ ${fav.price}</span>
+              </div>
+              <button class="fav-remove" onclick="removeFav(${fav.id})" title="remove"><i class="fas fa-times-circle"></i></button>
+            </div>
+          `;
+        });
+        favouritesGrid.innerHTML = html;
+        // also update heart active state in product cards
+        document.querySelectorAll('.favourite-btn').forEach(btn => {
+          const fid = parseInt(btn.dataset.favid);
+          if (favourites.some(f => f.id === fid)) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+
+      // add/remove from favourites
+      function toggleFavourite(productId, productName, productPrice) {
+        const index = favourites.findIndex(f => f.id === productId);
+        if (index === -1) {
+          favourites.push({ id: productId, name: productName, price: productPrice });
+        } else {
+          favourites.splice(index, 1);
+        }
+        updateFavouritesDisplay();
+      }
+
+      window.removeFav = function(id) {
+        favourites = favourites.filter(f => f.id !== id);
+        updateFavouritesDisplay();
+      };
+
+      // attach favourite button listeners
+      document.querySelectorAll('.favourite-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const card = btn.closest('.product-card');
+          const id = parseInt(btn.dataset.favid);
+          const name = card.querySelector('h3').innerText;
+          const priceText = card.querySelector('.price').innerText;
+          const price = parseInt(priceText.replace('₹ ', '').replace(',',''));
+          toggleFavourite(id, name, price);
+        });
+      });
+
+      // ----- CART STATE (same as before) -----
+      let cart = []; // { id, name, price, quantity }
+      const cartCountSpan = document.getElementById('cartCount');
+      const cartContainer = document.getElementById('cartItemsContainer');
+      const cartTotalSpan = document.getElementById('cartTotalDisplay');
+
+      function updateCartDisplay() {
+        const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+        cartCountSpan.textContent = totalItems;
+        if (cart.length === 0) {
+          cartContainer.innerHTML = '<div class="cart-empty-msg">Your cart is empty.</div>';
+          cartTotalSpan.textContent = 'Total: ₹ 0';
+          return;
+        }
+        let html = '';
+        let total = 0;
+        cart.forEach(item => {
+          total += item.price * item.quantity;
+          html += `
+            <div class="cart-item">
+              <div class="cart-item-info">
+                <span class="cart-item-title">${item.name}</span><br>
+                <span class="cart-item-price">₹ ${item.price}</span>
+              </div>
+              <div class="cart-item-qty">
+                <button class="qty-btn" onclick="window.cartActions.updateQty(${item.id}, -1)">−</button>
+                <span>${item.quantity}</span>
+                <button class="qty-btn" onclick="window.cartActions.updateQty(${item.id}, 1)">+</button>
+                <i class="fas fa-trash-alt" style="color:#b06666; margin-left:8px; cursor:pointer;" onclick="window.cartActions.removeItem(${item.id})"></i>
+              </div>
+            </div>
+          `;
+        });
+        cartContainer.innerHTML = html;
+        cartTotalSpan.textContent = `Total: ₹ ${total}`;
+      }
+
+      const cartActions = {
+        addItem: (id, name, price) => {
+          const existing = cart.find(i => i.id === id);
+          existing ? existing.quantity += 1 : cart.push({ id, name, price, quantity: 1 });
+          updateCartDisplay();
+        },
+        updateQty: (id, delta) => {
+          const idx = cart.findIndex(i => i.id === id);
+          if (idx === -1) return;
+          const newQty = cart[idx].quantity + delta;
+          newQty <= 0 ? cart.splice(idx, 1) : cart[idx].quantity = newQty;
+          updateCartDisplay();
+        },
+        removeItem: (id) => { cart = cart.filter(i => i.id !== id); updateCartDisplay(); },
+        clearCart: () => { cart = []; updateCartDisplay(); }
+      };
+      window.cartActions = cartActions;
+
+      // Attach add-to-cart listeners
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = parseInt(btn.dataset.id);
+          const name = btn.dataset.name;
+          const price = parseInt(btn.dataset.price);
+          cartActions.addItem(id, name, price);
+        });
+      });
+
+      // Place order
+      window.handlePlaceOrder = function() {
+        const name = document.getElementById('customerName').value.trim();
+        const email = document.getElementById('customerEmail').value.trim();
+        const address = document.getElementById('customerAddress').value.trim();
+        const msgBox = document.getElementById('orderMessage');
+        if (!name || !email || !address) {
+          msgBox.style.color = '#b06666';
+          msgBox.textContent = 'Please fill in all required fields (*)';
+          return;
+        }
+        if (cart.length === 0) {
+          msgBox.style.color = '#b06666';
+          msgBox.textContent = 'Your cart is empty. Add items before ordering.';
+          return;
+        }
+        const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+        msgBox.style.color = '#4f6b5e';
+        msgBox.innerHTML = `✅ Order booked! Thank you ${name}. We'll contact you at ${email}. Total: ₹${total}`;
+        cartActions.clearCart();
+      };
+
+      // mobile menu
+      const menuIcon = document.getElementById('menuIcon');
+      const navLinks = document.getElementById('navLinks');
+      menuIcon.addEventListener('click', () => navLinks.classList.toggle('active'));
+      document.querySelectorAll('.nav-links a').forEach(l => l.addEventListener('click', ()=> { if(window.innerWidth<=800) navLinks.classList.remove('active'); }));
+
+      // smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href === "#" || href === "") return;
+          const target = document.querySelector(href);
+          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+        });
+      });
+
+      updateCartDisplay();
+      updateFavouritesDisplay();
+    })();
+  </script>
+</body>
+</html>
