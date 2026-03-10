@@ -990,5 +990,1376 @@
       window.toggleFav = toggleFav;
     })();
   </script>
+<script>
+// ============================================
+// AMAZON-STYLE SHOPPING MECHANISM
+// Add this entire block to your existing code
+// Place it just before the closing </body> tag
+// ============================================
+
+(function() {
+    // ========== ADVANCED PRODUCT DATABASE ==========
+    const products = [
+        // Bangles Category
+        { 
+            id: 'B1001', 
+            name: 'Traditional Threaded Bangles Set', 
+            description: 'Handcrafted silk thread bangles with gold-plated accents. Set of 6 bangles in assorted colors.',
+            price: 1299, 
+            mrp: 1999,
+            discount: 35,
+            category: 'bangles',
+            subCategory: 'threaded',
+            brand: 'Knot & Threads',
+            rating: 4.5,
+            reviewCount: 128,
+            inStock: true,
+            stockQuantity: 50,
+            deliveryTime: '3-5 days',
+            freeDelivery: true,
+            codAvailable: true,
+            images: ['bangle1.jpg', 'bangle2.jpg', 'bangle3.jpg'],
+            colors: ['Red', 'Gold', 'Green', 'Blue'],
+            specifications: {
+                material: 'Silk thread + Gold plating',
+                length: 'Adjustable',
+                weight: '50g',
+                occasion: 'Festive, Wedding'
+            },
+            offers: [
+                'Bank offer 10% off on Credit Cards',
+                'No cost EMI available',
+                'Exchange available'
+            ],
+            seller: {
+                name: 'Knot & Threads Official',
+                rating: 4.8,
+                returns: '7 days replacement'
+            }
+        },
+        { 
+            id: 'B1002', 
+            name: 'Gold Plated Bridal Bangles', 
+            description: 'Heavy gold-plated bangles with intricate temple design. Perfect for weddings.',
+            price: 3490, 
+            mrp: 4999,
+            discount: 30,
+            category: 'bangles',
+            subCategory: 'bridal',
+            brand: 'Knot & Threads',
+            rating: 4.8,
+            reviewCount: 256,
+            inStock: true,
+            stockQuantity: 25,
+            deliveryTime: '2-4 days',
+            freeDelivery: true,
+            codAvailable: true,
+            images: ['bridal1.jpg', 'bridal2.jpg'],
+            colors: ['Gold'],
+            specifications: {
+                material: 'Gold plated on brass',
+                length: '6 inches',
+                weight: '120g',
+                occasion: 'Wedding, Bridal'
+            },
+            offers: [
+                'Bank offer 15% off on EMI',
+                'Free gift wrapping',
+                'Exchange available'
+            ],
+            seller: {
+                name: 'Knot & Threads Official',
+                rating: 4.8,
+                returns: '7 days replacement'
+            }
+        },
+        { 
+            id: 'B1003', 
+            name: 'Daily Wear Silver Bangles', 
+            description: 'Lightweight silver-plated bangles for everyday wear. Set of 12 bangles.',
+            price: 899, 
+            mrp: 1499,
+            discount: 40,
+            category: 'bangles',
+            subCategory: 'daily',
+            brand: 'Knot & Threads',
+            rating: 4.3,
+            reviewCount: 89,
+            inStock: true,
+            stockQuantity: 100,
+            deliveryTime: '3-5 days',
+            freeDelivery: true,
+            codAvailable: true,
+            images: ['silver1.jpg', 'silver2.jpg'],
+            colors: ['Silver'],
+            specifications: {
+                material: 'Silver plated',
+                length: '5.5 inches',
+                weight: '80g',
+                occasion: 'Daily wear'
+            },
+            offers: [
+                'Combo offer available',
+                'Subscribe for 5% off'
+            ],
+            seller: {
+                name: 'Knot & Threads Daily',
+                rating: 4.5,
+                returns: '7 days replacement'
+            }
+        },
+
+        // Kurtas Category
+        { 
+            id: 'K2001', 
+            name: 'Mirror Work Cotton Kurta', 
+            description: 'Hand-embroidered cotton kurta with traditional mirror work. Includes matching dupatta.',
+            price: 3490, 
+            mrp: 4999,
+            discount: 30,
+            category: 'kurtas',
+            subCategory: 'embroidered',
+            brand: 'Knot & Threads',
+            rating: 4.6,
+            reviewCount: 167,
+            inStock: true,
+            stockQuantity: 35,
+            deliveryTime: '4-6 days',
+            freeDelivery: true,
+            codAvailable: true,
+            images: ['kurta1.jpg', 'kurta2.jpg'],
+            sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+            colors: ['Red', 'Blue', 'Green', 'Yellow'],
+            specifications: {
+                fabric: 'Pure Cotton',
+                work: 'Mirror embroidery',
+                length: '48 inches',
+                washcare: 'Dry clean only'
+            },
+            offers: [
+                'Bank offer 10% off',
+                'Size exchange available',
+                'Buy 2 get 5% off'
+            ],
+            seller: {
+                name: 'Knot & Threads Ethnic',
+                rating: 4.7,
+                returns: '15 days size exchange'
+            }
+        },
+        { 
+            id: 'K2002', 
+            name: 'Chikankari White Kurta', 
+            description: 'Elegant white Chikankari kurta with detailed hand embroidery. Pure cotton fabric.',
+            price: 2850, 
+            mrp: 3999,
+            discount: 28,
+            category: 'kurtas',
+            subCategory: 'chikankari',
+            brand: 'Knot & Threads',
+            rating: 4.7,
+            reviewCount: 203,
+            inStock: true,
+            stockQuantity: 42,
+            deliveryTime: '4-6 days',
+            freeDelivery: true,
+            codAvailable: true,
+            images: ['chikan1.jpg', 'chikan2.jpg'],
+            sizes: ['S', 'M', 'L', 'XL'],
+            colors: ['White', 'Off-White'],
+            specifications: {
+                fabric: 'Cotton',
+                work: 'Chikankari embroidery',
+                length: '46 inches',
+                washcare: 'Gentle machine wash'
+            },
+            offers: [
+                'Special festive discount',
+                'Free shipping'
+            ],
+            seller: {
+                name: 'Knot & Threads Lucknow',
+                rating: 4.6,
+                returns: '10 days replacement'
+            }
+        },
+
+        // Dupattas Category
+        { 
+            id: 'D3001', 
+            name: 'Handwoven Silk Dupatta', 
+            description: 'Pure silk dupatta with zari border and tassels. Perfect for festive occasions.',
+            price: 2199, 
+            mrp: 3499,
+            discount: 37,
+            category: 'dupattas',
+            subCategory: 'silk',
+            brand: 'Knot & Threads',
+            rating: 4.4,
+            reviewCount: 92,
+            inStock: true,
+            stockQuantity: 60,
+            deliveryTime: '3-5 days',
+            freeDelivery: true,
+            codAvailable: true,
+            images: ['dupatta1.jpg', 'dupatta2.jpg'],
+            colors: ['Red', 'Maroon', 'Green', 'Peacock'],
+            specifications: {
+                fabric: 'Pure Silk',
+                length: '2.5 meters',
+                border: 'Zari work',
+                washcare: 'Dry clean only'
+            },
+            offers: [
+                'Combo with kurta - 15% off',
+                'Exchange available'
+            ],
+            seller: {
+                name: 'Knot & Threads Silk',
+                rating: 4.5,
+                returns: '7 days replacement'
+            }
+        },
+        { 
+            id: 'D3002', 
+            name: 'Cotton Printed Dupatta', 
+            description: 'Lightweight cotton dupatta with block print design. Perfect for daily wear.',
+            price: 899, 
+            mrp: 1499,
+            discount: 40,
+            category: 'dupattas',
+            subCategory: 'cotton',
+            brand: 'Knot & Threads',
+            rating: 4.2,
+            reviewCount: 78,
+            inStock: true,
+            stockQuantity: 85,
+            deliveryTime: '2-4 days',
+            freeDelivery: true,
+            codAvailable: true,
+            images: ['cotton1.jpg', 'cotton2.jpg'],
+            colors: ['Multi-color', 'Blue', 'Pink'],
+            specifications: {
+                fabric: 'Cotton',
+                length: '2.2 meters',
+                print: 'Block print',
+                washcare: 'Machine wash'
+            },
+            offers: [
+                'Buy 2 get 1 free',
+                'Free shipping'
+            ],
+            seller: {
+                name: 'Knot & Threads Daily',
+                rating: 4.3,
+                returns: '7 days replacement'
+            }
+        }
+    ];
+
+    // ========== USER STATE MANAGEMENT ==========
+    let currentUser = JSON.parse(localStorage.getItem('amazonUser')) || null;
+    let cart = JSON.parse(localStorage.getItem('amazonCart')) || [];
+    let wishlist = JSON.parse(localStorage.getItem('amazonWishlist')) || [];
+    let orders = JSON.parse(localStorage.getItem('amazonOrders')) || [];
+    let addresses = JSON.parse(localStorage.getItem('amazonAddresses')) || [];
+    let payments = JSON.parse(localStorage.getItem('amazonPayments')) || [];
+
+    // ========== SHOPPING CART WITH AMAZON FEATURES ==========
+    const CartManager = {
+        // Add to cart with quantity check
+        addToCart(productId, quantity = 1, selectedColor = null, selectedSize = null) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return false;
+
+            // Check stock
+            if (!product.inStock || product.stockQuantity < quantity) {
+                this.showNotification('Out of stock', 'error');
+                return false;
+            }
+
+            const cartItem = {
+                id: productId + (selectedColor || '') + (selectedSize || ''),
+                productId: productId,
+                name: product.name,
+                price: product.price,
+                mrp: product.mrp,
+                quantity: quantity,
+                color: selectedColor || product.colors[0],
+                size: selectedSize || (product.sizes ? product.sizes[0] : null),
+                image: product.images[0],
+                seller: product.seller.name,
+                deliveryTime: product.deliveryTime,
+                freeDelivery: product.freeDelivery
+            };
+
+            const existing = cart.findIndex(item => 
+                item.productId === productId && 
+                item.color === cartItem.color && 
+                item.size === cartItem.size
+            );
+
+            if (existing !== -1) {
+                cart[existing].quantity += quantity;
+            } else {
+                cart.push(cartItem);
+            }
+
+            this.saveCart();
+            this.updateCartDisplay();
+            this.showNotification('Added to cart', 'success');
+            return true;
+        },
+
+        // Update quantity
+        updateQuantity(itemId, newQuantity) {
+            const item = cart.find(i => i.id === itemId);
+            if (!item) return;
+
+            if (newQuantity <= 0) {
+                this.removeFromCart(itemId);
+                return;
+            }
+
+            // Check stock
+            const product = products.find(p => p.id === item.productId);
+            if (product && product.stockQuantity < newQuantity) {
+                this.showNotification('Maximum stock reached', 'warning');
+                return;
+            }
+
+            item.quantity = newQuantity;
+            this.saveCart();
+            this.updateCartDisplay();
+        },
+
+        // Remove from cart
+        removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            this.saveCart();
+            this.updateCartDisplay();
+            this.showNotification('Item removed', 'info');
+        },
+
+        // Save cart
+        saveCart() {
+            localStorage.setItem('amazonCart', JSON.stringify(cart));
+        },
+
+        // Get cart total
+        getCartTotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        },
+
+        // Get cart savings
+        getCartSavings() {
+            return cart.reduce((sum, item) => sum + ((item.mrp - item.price) * item.quantity), 0);
+        },
+
+        // Update cart display
+        updateCartDisplay() {
+            // Update cart count
+            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelectorAll('.cart-count, #cartCount').forEach(el => {
+                if (el) el.textContent = cartCount;
+            });
+
+            // Update cart total
+            document.querySelectorAll('.cart-total-amount, #cartTotal').forEach(el => {
+                if (el) el.textContent = `₹${this.getCartTotal()}`;
+            });
+
+            // Render cart items
+            const cartContainer = document.getElementById('cartItems');
+            if (cartContainer) {
+                if (cart.length === 0) {
+                    cartContainer.innerHTML = '<div class="empty-cart">Your Amazon Cart is empty</div>';
+                } else {
+                    cartContainer.innerHTML = cart.map(item => `
+                        <div class="cart-item" data-id="${item.id}">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                            <div class="cart-item-details">
+                                <h4>${item.name}</h4>
+                                <p>Color: ${item.color} ${item.size ? '| Size: ' + item.size : ''}</p>
+                                <p>Sold by: ${item.seller}</p>
+                                <div class="price-details">
+                                    <span class="current-price">₹${item.price}</span>
+                                    <span class="mrp">M.R.P: ₹${item.mrp}</span>
+                                    <span class="savings">Save ₹${item.mrp - item.price}</span>
+                                </div>
+                                <div class="delivery-info">
+                                    <i class="fas fa-truck"></i> ${item.deliveryTime}
+                                    ${item.freeDelivery ? '<span class="free-delivery">Free Delivery</span>' : ''}
+                                </div>
+                                <div class="cart-item-actions">
+                                    <select onchange="CartManager.updateQuantity('${item.id}', parseInt(this.value))">
+                                        ${[1,2,3,4,5].map(num => 
+                                            `<option value="${num}" ${item.quantity === num ? 'selected' : ''}>Qty: ${num}</option>`
+                                        ).join('')}
+                                    </select>
+                                    <button onclick="CartManager.removeFromCart('${item.id}')">Delete</button>
+                                    <button onclick="CartManager.saveForLater('${item.id}')">Save for later</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+        },
+
+        // Save for later (wishlist)
+        saveForLater(itemId) {
+            const item = cart.find(i => i.id === itemId);
+            if (item) {
+                wishlist.push({...item, savedAt: new Date().toISOString()});
+                this.removeFromCart(itemId);
+                localStorage.setItem('amazonWishlist', JSON.stringify(wishlist));
+                this.showNotification('Saved for later', 'success');
+            }
+        },
+
+        // Show notification
+        showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `amazon-notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+    };
+
+    // ========== CHECKOUT WITH AMAZON-STYLE FLOW ==========
+    const CheckoutManager = {
+        currentStep: 1,
+        steps: ['signin', 'address', 'payment', 'review'],
+
+        // Initialize checkout
+        startCheckout() {
+            if (!currentUser) {
+                this.showSignInModal();
+                return;
+            }
+            this.showCheckoutModal();
+        },
+
+        // Show sign in modal
+        showSignInModal() {
+            const modal = document.getElementById('checkoutSignInModal');
+            if (modal) modal.classList.add('show');
+        },
+
+        // Show checkout modal
+        showCheckoutModal() {
+            const modal = document.getElementById('amazonCheckoutModal');
+            if (!modal) return;
+
+            modal.classList.add('show');
+            this.renderStep(1);
+        },
+
+        // Render checkout step
+        renderStep(step) {
+            const container = document.getElementById('checkoutContent');
+            if (!container) return;
+
+            switch(step) {
+                case 1:
+                    this.renderAddressStep(container);
+                    break;
+                case 2:
+                    this.renderPaymentStep(container);
+                    break;
+                case 3:
+                    this.renderReviewStep(container);
+                    break;
+            }
+        },
+
+        // Render address selection
+        renderAddressStep(container) {
+            const savedAddresses = addresses.length ? addresses : [
+                {
+                    id: 1,
+                    name: 'Home',
+                    address: '123 Heritage Lane, Jaipur',
+                    city: 'Jaipur',
+                    state: 'Rajasthan',
+                    pincode: '302001',
+                    phone: '+91 98765 43210',
+                    default: true
+                }
+            ];
+
+            container.innerHTML = `
+                <h3>Select delivery address</h3>
+                <div class="address-list">
+                    ${savedAddresses.map(addr => `
+                        <div class="address-card ${addr.default ? 'selected' : ''}" onclick="CheckoutManager.selectAddress(${addr.id})">
+                            <input type="radio" name="address" ${addr.default ? 'checked' : ''}>
+                            <div class="address-details">
+                                <strong>${addr.name}</strong>
+                                <p>${addr.address}</p>
+                                <p>${addr.city}, ${addr.state} - ${addr.pincode}</p>
+                                <p>Phone: ${addr.phone}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-address-btn" onclick="CheckoutManager.showAddAddress()">
+                    <i class="fas fa-plus"></i> Add new address
+                </button>
+                <div class="checkout-actions">
+                    <button class="next-btn" onclick="CheckoutManager.nextStep()">Continue to payment</button>
+                </div>
+            `;
+        },
+
+        // Render payment step
+        renderPaymentStep(container) {
+            const savedPayments = payments.length ? payments : [
+                { id: 1, type: 'card', last4: '1234', name: 'HDFC Credit Card', default: true },
+                { id: 2, type: 'upi', id: 'user@okhdfcbank', name: 'Google Pay' }
+            ];
+
+            container.innerHTML = `
+                <h3>Select payment method</h3>
+                <div class="payment-list">
+                    ${savedPayments.map(pay => `
+                        <div class="payment-card ${pay.default ? 'selected' : ''}" onclick="CheckoutManager.selectPayment(${pay.id})">
+                            <input type="radio" name="payment" ${pay.default ? 'checked' : ''}>
+                            <div class="payment-details">
+                                <i class="fas ${pay.type === 'card' ? 'fa-credit-card' : 'fa-mobile-alt'}"></i>
+                                <span>${pay.name} ${pay.type === 'card' ? 'ending in ' + pay.last4 : ''}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="add-payment-btn" onclick="CheckoutManager.showAddPayment()">
+                    <i class="fas fa-plus"></i> Add new payment method
+                </button>
+                <div class="checkout-actions">
+                    <button class="back-btn" onclick="CheckoutManager.prevStep()">Back to address</button>
+                    <button class="next-btn" onclick="CheckoutManager.nextStep()">Continue to review</button>
+                </div>
+            `;
+        },
+
+        // Render review step
+        renderReviewStep(container) {
+            const total = CartManager.getCartTotal();
+            const savings = CartManager.getCartSavings();
+            const deliveryCharge = total > 499 ? 0 : 40;
+
+            container.innerHTML = `
+                <h3>Review your order</h3>
+                <div class="order-summary">
+                    <h4>Order summary (${cart.length} items)</h4>
+                    ${cart.map(item => `
+                        <div class="review-item">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>₹${item.price * item.quantity}</span>
+                        </div>
+                    `).join('')}
+                    <div class="price-breakup">
+                        <div class="breakup-row">
+                            <span>Total MRP</span>
+                            <span>₹${total + savings}</span>
+                        </div>
+                        <div class="breakup-row">
+                            <span>Discount</span>
+                            <span class="savings">-₹${savings}</span>
+                        </div>
+                        <div class="breakup-row">
+                            <span>Delivery charges</span>
+                            <span>${deliveryCharge === 0 ? 'Free' : '₹' + deliveryCharge}</span>
+                        </div>
+                        <div class="breakup-row total">
+                            <span>Total amount</span>
+                            <span>₹${total + deliveryCharge}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-actions">
+                    <button class="back-btn" onclick="CheckoutManager.prevStep()">Back to payment</button>
+                    <button class="place-order-btn" onclick="CheckoutManager.placeOrder()">
+                        Place your order (₹${total + deliveryCharge})
+                    </button>
+                </div>
+            `;
+        },
+
+        // Next step
+        nextStep() {
+            if (this.currentStep < 3) {
+                this.currentStep++;
+                this.renderStep(this.currentStep);
+            }
+        },
+
+        // Previous step
+        prevStep() {
+            if (this.currentStep > 1) {
+                this.currentStep--;
+                this.renderStep(this.currentStep);
+            }
+        },
+
+        // Place order
+        placeOrder() {
+            const order = {
+                id: 'ORD' + Date.now(),
+                items: [...cart],
+                total: CartManager.getCartTotal(),
+                date: new Date().toISOString(),
+                status: 'Order placed',
+                estimatedDelivery: new Date(Date.now() + 5*24*60*60*1000).toLocaleDateString()
+            };
+
+            orders.push(order);
+            localStorage.setItem('amazonOrders', JSON.stringify(orders));
+            
+            // Clear cart
+            cart = [];
+            CartManager.saveCart();
+            CartManager.updateCartDisplay();
+
+            // Show success
+            this.showOrderSuccess(order);
+        },
+
+        // Show order success
+        showOrderSuccess(order) {
+            const container = document.getElementById('checkoutContent');
+            container.innerHTML = `
+                <div class="order-success">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Order placed successfully!</h2>
+                    <p>Order ID: ${order.id}</p>
+                    <p>Estimated delivery: ${order.estimatedDelivery}</p>
+                    <button onclick="CheckoutManager.closeCheckout()" class="continue-shopping">
+                        Continue shopping
+                    </button>
+                </div>
+            `;
+        },
+
+        // Close checkout
+        closeCheckout() {
+            document.getElementById('amazonCheckoutModal').classList.remove('show');
+            this.currentStep = 1;
+        }
+    };
+
+    // ========== PRODUCT DETAILS PAGE (AMAZON STYLE) ==========
+    const ProductDetails = {
+        showProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.getElementById('productDetailsModal');
+            if (!modal) return;
+
+            modal.innerHTML = `
+                <div class="modal-content amazon-product-modal">
+                    <button class="close-modal" onclick="ProductDetails.closeModal()">×</button>
+                    <div class="product-detail-layout">
+                        <div class="product-gallery">
+                            <img src="${product.images[0]}" alt="${product.name}" class="main-image">
+                            <div class="thumbnail-list">
+                                ${product.images.map(img => 
+                                    `<img src="${img}" alt="" class="thumbnail">`
+                                ).join('')}
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h1 class="product-title">${product.name}</h1>
+                            <p class="product-brand">Brand: ${product.brand}</p>
+                            
+                            <div class="rating-section">
+                                <span class="rating">${product.rating} ★</span>
+                                <span class="review-count">${product.reviewCount} ratings</span>
+                            </div>
+
+                            <div class="price-section">
+                                <span class="current-price">₹${product.price}</span>
+                                <span class="mrp">M.R.P: <del>₹${product.mrp}</del></span>
+                                <span class="discount">(${product.discount}% off)</span>
+                            </div>
+
+                            <div class="offers-section">
+                                <h4>Available offers</h4>
+                                <ul>
+                                    ${product.offers.map(offer => 
+                                        `<li><i class="fas fa-tag"></i> ${offer}</li>`
+                                    ).join('')}
+                                </ul>
+                            </div>
+
+                            <div class="delivery-section">
+                                <h4>Delivery</h4>
+                                <p><i class="fas fa-truck"></i> Delivery in ${product.deliveryTime}</p>
+                                ${product.freeDelivery ? '<p class="free-delivery">Free Delivery</p>' : ''}
+                                ${product.codAvailable ? '<p class="cod">Cash on Delivery available</p>' : ''}
+                            </div>
+
+                            <div class="stock-status">
+                                ${product.inStock ? 
+                                    '<span class="in-stock"><i class="fas fa-check"></i> In stock</span>' : 
+                                    '<span class="out-stock">Out of stock</span>'
+                                }
+                            </div>
+
+                            <div class="product-specs">
+                                <h4>Specifications</h4>
+                                <table>
+                                    ${Object.entries(product.specifications).map(([key, value]) => `
+                                        <tr>
+                                            <td>${key}</td>
+                                            <td>${value}</td>
+                                        </tr>
+                                    `).join('')}
+                                </table>
+                            </div>
+
+                            ${product.colors ? `
+                                <div class="color-selector">
+                                    <h4>Color</h4>
+                                    <select id="productColor">
+                                        ${product.colors.map(color => 
+                                            `<option value="${color}">${color}</option>`
+                                        ).join('')}
+                                    </select>
+                                </div>
+                            ` : ''}
+
+                            ${product.sizes ? `
+                                <div class="size-selector">
+                                    <h4>Size</h4>
+                                    <select id="productSize">
+                                        ${product.sizes.map(size => 
+                                            `<option value="${size}">${size}</option>`
+                                        ).join('')}
+                                    </select>
+                                </div>
+                            ` : ''}
+
+                            <div class="quantity-selector">
+                                <h4>Quantity</h4>
+                                <select id="productQuantity">
+                                    ${[1,2,3,4,5].map(num => 
+                                        `<option value="${num}">${num}</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" onclick="ProductDetails.addToCart('${product.id}')">
+                                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                                </button>
+                                <button class="buy-now-btn" onclick="ProductDetails.buyNow('${product.id}')">
+                                    Buy Now
+                                </button>
+                            </div>
+
+                            <div class="seller-info">
+                                <h4>Seller</h4>
+                                <p>${product.seller.name} (${product.seller.rating} ★)</p>
+                                <p>${product.seller.returns}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('show');
+        },
+
+        addToCart(productId) {
+            const color = document.getElementById('productColor')?.value;
+            const size = document.getElementById('productSize')?.value;
+            const quantity = parseInt(document.getElementById('productQuantity')?.value || 1);
+            
+            CartManager.addToCart(productId, quantity, color, size);
+            this.closeModal();
+        },
+
+        buyNow(productId) {
+            this.addToCart(productId);
+            CheckoutManager.startCheckout();
+        },
+
+        closeModal() {
+            document.getElementById('productDetailsModal').classList.remove('show');
+        }
+    };
+
+    // ========== ORDER TRACKING ==========
+    const OrderTracker = {
+        showOrderHistory() {
+            const userOrders = orders.filter(o => o.userId === currentUser?.id);
+            
+            const modal = document.getElementById('orderHistoryModal');
+            if (!modal) return;
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <button class="close-modal" onclick="OrderTracker.closeHistory()">×</button>
+                    <h2>Your Orders</h2>
+                    <div class="orders-list">
+                        ${userOrders.length ? userOrders.map(order => `
+                            <div class="order-card" onclick="OrderTracker.trackOrder('${order.id}')">
+                                <div class="order-header">
+                                    <span>Order ID: ${order.id}</span>
+                                    <span class="order-status">${order.status}</span>
+                                </div>
+                                <div class="order-date">Placed on: ${new Date(order.date).toLocaleDateString()}</div>
+                                <div class="order-items">
+                                    ${order.items.map(item => `
+                                        <div class="order-item">
+                                            <span>${item.name} x${item.quantity}</span>
+                                            <span>₹${item.price * item.quantity}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="order-total">Total: ₹${order.total}</div>
+                                <div class="delivery-date">Estimated delivery: ${order.estimatedDelivery}</div>
+                                <button class="track-order-btn">Track package</button>
+                            </div>
+                        `).join('') : '<p>No orders yet</p>'}
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('show');
+        },
+
+        trackOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const trackingModal = document.getElementById('trackingModal');
+            if (!trackingModal) return;
+
+            const steps = ['Order placed', 'Shipped', 'Out for delivery', 'Delivered'];
+            const currentStep = steps.indexOf(order.status) + 1;
+
+            trackingModal.innerHTML = `
+                <div class="modal-content">
+                    <button class="close-modal" onclick="OrderTracker.closeTracking()">×</button>
+                    <h2>Track Order - ${orderId}</h2>
+                    <div class="tracking-timeline">
+                        ${steps.map((step, index) => `
+                            <div class="timeline-step ${index + 1 <= currentStep ? 'completed' : ''}">
+                                <div class="step-icon">
+                                    <i class="fas ${index === 0 ? 'fa-box' : index === 1 ? 'fa-truck' : index === 2 ? 'fa-map-marker-alt' : 'fa-check'}"></i>
+                                </div>
+                                <div class="step-content">
+                                    <h4>${step}</h4>
+                                    <p>${index + 1 <= currentStep ? 'Completed' : 'Pending'}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="tracking-details">
+                        <h4>Delivery details</h4>
+                        <p>Expected delivery: ${order.estimatedDelivery}</p>
+                        <p>Carrier: Knot & Threads Logistics</p>
+                        <p>Tracking ID: KT${order.id}IND</p>
+                    </div>
+                </div>
+            `;
+
+            trackingModal.classList.add('show');
+        },
+
+        closeHistory() {
+            document.getElementById('orderHistoryModal')?.classList.remove('show');
+        },
+
+        closeTracking() {
+            document.getElementById('trackingModal')?.classList.remove('show');
+        }
+    };
+
+    // ========== REVIEWS AND RATINGS ==========
+    const ReviewSystem = {
+        showReviews(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.getElementById('reviewsModal');
+            if (!modal) return;
+
+            // Sample reviews
+            const reviews = [
+                { user: 'Priya S.', rating: 5, title: 'Beautiful product', comment: 'Loved the quality and design', date: '2025-02-15' },
+                { user: 'Anjali M.', rating: 4, title: 'Good value', comment: 'Nice product but delivery took time', date: '2025-02-10' },
+                { user: 'Ritu K.', rating: 5, title: 'Excellent', comment: 'Exactly as described', date: '2025-02-05' }
+            ];
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <button class="close-modal" onclick="ReviewSystem.closeReviews()">×</button>
+                    <h2>Customer Reviews - ${product.name}</h2>
+                    
+                    <div class="rating-summary">
+                        <div class="average-rating">
+                            <span class="big-rating">${product.rating}</span>
+                            <span class="stars">${'★'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '½' : ''}</span>
+                            <span>${product.reviewCount} ratings</span>
+                        </div>
+                    </div>
+
+                    <div class="reviews-list">
+                        ${reviews.map(review => `
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <strong>${review.user}</strong>
+                                    <span class="review-rating">${'★'.repeat(review.rating)}</span>
+                                    <span class="review-date">${review.date}</span>
+                                </div>
+                                <h4 class="review-title">${review.title}</h4>
+                                <p class="review-comment">${review.comment}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <button class="write-review-btn" onclick="ReviewSystem.writeReview('${productId}')">
+                        Write a review
+                    </button>
+                </div>
+            `;
+
+            modal.classList.add('show');
+        },
+
+        writeReview(productId) {
+            if (!currentUser) {
+                CheckoutManager.showSignInModal();
+                return;
+            }
+            // Show review form
+            alert('Review form would open here');
+        },
+
+        closeReviews() {
+            document.getElementById('reviewsModal')?.classList.remove('show');
+        }
+    };
+
+    // ========== FILTER AND SEARCH ==========
+    const ProductFilters = {
+        filters: {
+            category: null,
+            priceRange: { min: 0, max: 10000 },
+            brand: [],
+            rating: null,
+            inStock: false
+        },
+
+        applyFilters() {
+            let filtered = [...products];
+
+            if (this.filters.category) {
+                filtered = filtered.filter(p => p.category === this.filters.category);
+            }
+
+            if (this.filters.priceRange) {
+                filtered = filtered.filter(p => 
+                    p.price >= this.filters.priceRange.min && 
+                    p.price <= this.filters.priceRange.max
+                );
+            }
+
+            if (this.filters.brand.length) {
+                filtered = filtered.filter(p => this.filters.brand.includes(p.brand));
+            }
+
+            if (this.filters.rating) {
+                filtered = filtered.filter(p => p.rating >= this.filters.rating);
+            }
+
+            if (this.filters.inStock) {
+                filtered = filtered.filter(p => p.inStock);
+            }
+
+            this.renderFilteredProducts(filtered);
+        },
+
+        renderFilteredProducts(filteredProducts) {
+            const grid = document.getElementById('productsGrid');
+            if (grid) {
+                grid.innerHTML = filteredProducts.map(p => `
+                    <div class="product-card" onclick="ProductDetails.showProductDetails('${p.id}')">
+                        <div class="product-image">
+                            <img src="${p.images[0]}" alt="${p.name}">
+                        </div>
+                        <div class="product-info">
+                            <h3>${p.name}</h3>
+                            <div class="rating">
+                                <span class="stars">${'★'.repeat(Math.floor(p.rating))}</span>
+                                <span>(${p.reviewCount})</span>
+                            </div>
+                            <div class="price">
+                                <span class="current">₹${p.price}</span>
+                                <span class="original">₹${p.mrp}</span>
+                                <span class="discount">${p.discount}% off</span>
+                            </div>
+                            <p class="delivery">${p.deliveryTime}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+    };
+
+    // ========== EXPOSE GLOBALLY ==========
+    window.CartManager = CartManager;
+    window.CheckoutManager = CheckoutManager;
+    window.ProductDetails = ProductDetails;
+    window.OrderTracker = OrderTracker;
+    window.ReviewSystem = ReviewSystem;
+    window.ProductFilters = ProductFilters;
+
+    // Initialize
+    CartManager.updateCartDisplay();
+})();
+</script>
+
+<!-- Add these Amazon-style modals after your existing modals -->
+<!-- Place this after your existing checkout modal but before closing body -->
+
+<!-- Amazon Product Details Modal -->
+<div class="modal-overlay" id="productDetailsModal" style="display: none;"></div>
+
+<!-- Amazon Checkout Modal -->
+<div class="modal-overlay" id="amazonCheckoutModal" style="display: none;">
+    <div class="modal-card amazon-checkout-card">
+        <div class="modal-header">
+            <h2>Checkout</h2>
+            <button class="modal-close" onclick="CheckoutManager.closeCheckout()">×</button>
+        </div>
+        <div id="checkoutContent"></div>
+    </div>
+</div>
+
+<!-- Order History Modal -->
+<div class="modal-overlay" id="orderHistoryModal" style="display: none;"></div>
+
+<!-- Tracking Modal -->
+<div class="modal-overlay" id="trackingModal" style="display: none;"></div>
+
+<!-- Reviews Modal -->
+<div class="modal-overlay" id="reviewsModal" style="display: none;"></div>
+
+<style>
+/* Amazon-style CSS - Add this to your existing styles */
+.amazon-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    color: white;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+}
+
+.amazon-notification.success { background: #28a745; }
+.amazon-notification.error { background: #dc3545; }
+.amazon-notification.warning { background: #ffc107; color: #333; }
+.amazon-notification.info { background: #17a2b8; }
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.cart-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-item-details {
+    flex: 1;
+}
+
+.price-details {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.current-price { font-size: 1.2rem; font-weight: bold; color: #b12704; }
+.mrp { color: #565959; font-size: 0.9rem; }
+.savings { color: #007600; font-size: 0.9rem; }
+
+.delivery-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: #565959;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.free-delivery { color: #007600; }
+
+.cart-item-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.cart-item-actions select,
+.cart-item-actions button {
+    padding: 0.3rem 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+}
+
+.cart-item-actions button:hover {
+    background: #f5f5f5;
+}
+
+.amazon-product-modal {
+    width: 900px !important;
+    max-width: 95%;
+    padding: 2rem !important;
+}
+
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.main-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.thumbnail-list {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.rating-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.rating {
+    background: #2874f0;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+}
+
+.offers-section {
+    background: #f3f9f3;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.offers-section ul {
+    list-style: none;
+    margin-top: 0.5rem;
+}
+
+.offers-section li {
+    margin: 0.3rem 0;
+    color: #007600;
+}
+
+.product-specs table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-specs td {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+}
+
+.product-specs td:first-child {
+    font-weight: bold;
+    background: #f5f5f5;
+}
+
+.add-to-cart-btn,
+.buy-now-btn {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.add-to-cart-btn {
+    background: #ffd814;
+    color: #111;
+}
+
+.buy-now-btn {
+    background: #ffa41c;
+    color: white;
+}
+
+.address-card,
+.payment-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    cursor: pointer;
+}
+
+.address-card.selected,
+.payment-card.selected {
+    border: 2px solid #2874f0;
+    background: #f5f9ff;
+}
+
+.checkout-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.back-btn,
+.next-btn,
+.place-order-btn {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.back-btn { background: #f5f5f5; }
+.next-btn { background: #2874f0; color: white; }
+.place-order-btn { background: #ffa41c; color: white; }
+
+.price-breakup {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.breakup-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+}
+
+.breakup-row.total {
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-top: 1px solid #ddd;
+    padding-top: 0.5rem;
+}
+
+.order-success {
+    text-align: center;
+    padding: 2rem;
+}
+
+.order-success i {
+    font-size: 4rem;
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.tracking-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.timeline-step {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.timeline-step.completed .step-icon {
+    background: #28a745;
+    color: white;
+}
+
+.step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    cursor: pointer;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.order-status {
+    color: #007600;
+}
+
+@media (max-width: 768px) {
+    .product-detail-layout {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </body>
 </html>
